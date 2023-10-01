@@ -53,8 +53,7 @@ public class Water : MonoBehaviour
 		filter.mesh = mesh;
 		waterMaterial = GetComponentInChildren<MeshRenderer>().material;
 		planetGen = FindObjectOfType<GenTest>();
-
-
+		
 	}
 
 
@@ -62,6 +61,7 @@ public class Water : MonoBehaviour
 	{
 		filter.transform.localScale = Vector3.one * radius;
 
+		waterMaterial.SetTexture("_BumpMap", waveNormalA);
 		waterMaterial.SetTexture("waveNormalA", waveNormalA);
 		waterMaterial.SetTexture("waveNormalB", waveNormalB);
 		waterMaterial.SetTexture("foamNoiseTex", foamNoise);
@@ -70,11 +70,11 @@ public class Water : MonoBehaviour
 		waterMaterial.SetColor("deepCol", deepCol);
 		waterMaterial.SetColor("shallowCol", shallowCol);
 		waterMaterial.SetFloat("colDepthFactor", colDepthFactor);
-		waterMaterial.SetFloat("smoothness", smoothness);
+		//waterMaterial.SetFloat("smoothness", smoothness);
 
 		waterMaterial.SetFloat("alphaFresnelPow", alphaFresnelPow);
 		waterMaterial.SetVector("params", testParams);
-		waterMaterial.SetTexture("DensityTex", FindObjectOfType<GenTest>().processedDensityTexture);
+		waterMaterial.SetTexture("DensityTex", planetGen.processedDensityTexture);
 		waterMaterial.SetVector("dirToSun", EffectManager.DirToSun);
 		waterMaterial.SetFloat("planetBoundsSize", planetGen.boundsSize);
 	}

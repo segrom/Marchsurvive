@@ -196,7 +196,6 @@ Shader "Unlit/Water"
 				float3 waveNormal1 = triplanarNormal(i.worldPos, i.worldNormal, waveNormalScale, waveOffsetA, waveNormalA);
 				float3 waveNormal2 = triplanarNormal(i.worldPos, i.worldNormal, waveNormalScale, waveOffsetB, waveNormalB);
 				float3 waveNormal = triplanarNormal(i.worldPos, waveNormal1, waveNormalScale, waveOffsetB, waveNormalB);
-				float3 specWaveNormal = normalize(lerp(i.worldNormal, waveNormal, waveStrength));
 
 				float f2 = dot(i.worldNormal, dirToSun);
 				f2 = smoothstep(0,0.2,f2);
@@ -206,17 +205,6 @@ Shader "Unlit/Water"
 				float g2 = 1-((pow(dot(waveNormal2,i.worldNormal),0.9)) > 0.93);
 				float glitter = g*g2 * 0.2 * f2;
 				//return test(glitter);
-
-				// Specular highlight
-				float specThreshold = 0.7;
-				
-				float specularHighlight = calculateSpecular(specWaveNormal, viewDir, smoothness);
-
-				float steppedSpecularHighlight = 0;
-				steppedSpecularHighlight += (specularHighlight > specThreshold);
-				steppedSpecularHighlight += (specularHighlight > specThreshold * 0.4) * 0.4;
-				steppedSpecularHighlight += (specularHighlight > specThreshold * 0.2) * 0.2;
-				specularHighlight = steppedSpecularHighlight;
 				
 				// -------- Calculate water depth --------
 				float nonLinearDepth = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, i.screenPos);
