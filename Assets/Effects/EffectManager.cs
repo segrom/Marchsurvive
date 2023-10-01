@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EffectManager : MonoBehaviour
 {
-
 	public bool atmosphereEnabled = true;
 	public bool cloudsEnabled = true;
 	public bool underwaterEnabled = true;
@@ -28,7 +27,7 @@ public class EffectManager : MonoBehaviour
 	CloudManager cloudManager;
 	FXAAEffect fxaa;
 	static Transform sunTransform;
-
+	
 	void Awake()
 	{
 		sunTransform = GameObject.FindWithTag("Sun").transform;
