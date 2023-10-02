@@ -78,6 +78,7 @@ public class AtmosphereSettings : ScriptableObject
 			material.SetFloat("ditherStrength", ditherStrength);
 			material.SetFloat("ditherScale", ditherScale);
 			material.SetTexture("_BlueNoise", blueNoise);
+			material.SetTexture("_WaterDepthTexture", EffectManager.WaterDepthTex);
 
 
 			material.SetTexture("_BakedOpticalDepth", opticalDepthTexture);

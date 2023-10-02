@@ -40,7 +40,7 @@ float3 worldToTexPos(float3 worldPos) {
     return worldPos / planetBoundsSize + 0.5;
 }
 
-void modify(Varyings varyings,InputData IN, inout SurfaceData surface)
+void modify(Varyings varyings, InputData IN, inout SurfaceData surface)
 {
     float3 t = worldToTexPos(IN.positionWS);
     float density = tex3D(DensityTex, t);

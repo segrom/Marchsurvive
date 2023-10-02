@@ -206,7 +206,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 16
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 986e8749033d359488e3ab968731b388, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 1bc6a7112e41c9d41a0bb8de374c17cd, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 1
   m_RenderPostProcessing: 0
@@ -383,7 +383,7 @@ MonoBehaviour:
   isoLevel: 0
   useFlatShading: 0
   noiseScale: 0.75
-  noiseHeightMultiplier: 0.075
+  noiseHeightMultiplier: 0.05
   blurMap: 1
   blurRadius: 3
   meshCompute: {fileID: 7200000, guid: a673d46038c7549d0ab1ffa38907c8c2, type: 3}
@@ -1622,7 +1622,6 @@ MonoBehaviour:
   atmosphereSettings: {fileID: 11400000, guid: 37bef69d518b7b4458fd4c0390e3f9a1, type: 2}
   depthShader: {fileID: 4800000, guid: 4cf13758782c8b14f886c593390d8807, type: 3}
   underwaterShader: {fileID: 4800000, guid: 1635a6e414132dd438cbcf8c40ed4eaa, type: 3}
-  hudShader: {fileID: 4800000, guid: a1cee5c48bb3469429f165302e43a2c0, type: 3}
   waterDepthCam: {fileID: 115234638}
 --- !u!4 &1954793154
 Transform:

@@ -23,8 +23,14 @@ public class CameraEffect : MonoBehaviour
 		}*/
 	}
 
+	private void Awake()
+	{
+		Init();
+	}
+
 	void Init()
 	{
+		_waterDepthCamera.depthTextureMode = DepthTextureMode.Depth;
 		if (effectManager == null)
 		{
 			effectManager = FindObjectOfType<EffectManager>();
@@ -33,6 +39,6 @@ public class CameraEffect : MonoBehaviour
 
 	private void Update()
 	{
-		//_waterDepthCamera.RenderWithShader(_depthShader, "");
+		_waterDepthCamera.Render();
 	}
 }

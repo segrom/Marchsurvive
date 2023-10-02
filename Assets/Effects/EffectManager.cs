@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class EffectManager : MonoBehaviour
 {
+
+	public static Vector3 DirToSun {
+		get {
+			return -sunTransform.forward;
+		}
+	}
+	
+	public static RenderTexture WaterDepthTex { get; private set; }
+	
 	public bool atmosphereEnabled = true;
 	public bool cloudsEnabled = true;
 	public bool underwaterEnabled = true;
@@ -13,11 +22,10 @@ public class EffectManager : MonoBehaviour
 
 	public Shader depthShader;
 	public Shader underwaterShader;
-	public Shader hudShader;
 
 	public Camera waterDepthCam;
-
-	RenderTexture waterDepthTex;
+	
+	
 	Material atmosphereMat;
 	Material underwaterMat;
 	Material hudMat;
@@ -38,6 +46,8 @@ public class EffectManager : MonoBehaviour
 
 		gaussianBlur = new ComputeShaderUtility.GaussianBlur();
 
+		//Init();
+		
 	}
 
 	void RenderAtmosphere(RenderTexture source, RenderTexture target)
@@ -103,15 +113,12 @@ public class EffectManager : MonoBehaviour
 		RenderTexture antiAliasedResult = RenderTexture.GetTemporary(source.descriptor);
 		if (antiAliasingEnabled)
 		{
-			fxaa.Render(underwaterComposite, antiAliasedResult);
+			fxaa.Render(underwaterComposite, target);
 		}
 		else
 		{
-			Graphics.Blit(underwaterComposite, antiAliasedResult);
+			Graphics.Blit(underwaterComposite, target);
 		}
-
-		// -------- HUD --------
-		Graphics.Blit(antiAliasedResult, target, hudMat);
 
 		// -------- Release --------
 		RenderTexture.ReleaseTemporary(atmosphereComposite);
@@ -125,17 +132,16 @@ public class EffectManager : MonoBehaviour
 	{
 		CreateMaterial(ref atmosphereMat, atmosphereSettings.shader);
 		CreateMaterial(ref underwaterMat, underwaterShader);
-		CreateMaterial(ref hudMat, hudShader);
 
-		if (waterDepthTex == null || waterDepthTex.width != Screen.width || waterDepthTex.height != Screen.height)
+		if (WaterDepthTex == null || WaterDepthTex.width != Screen.width || WaterDepthTex.height != Screen.height)
 		{
-			if (waterDepthTex)
+			if (WaterDepthTex)
 			{
-				waterDepthTex.Release();
+				WaterDepthTex.Release();
 			}
-			waterDepthTex = new RenderTexture(Screen.width, Screen.height, 32, UnityEngine.Experimental.Rendering.GraphicsFormat.R32G32B32A32_SFloat);
-			waterDepthTex.Create();
-			waterDepthCam.targetTexture = waterDepthTex;
+			WaterDepthTex = new RenderTexture(Screen.width, Screen.height, 32, UnityEngine.Experimental.Rendering.GraphicsFormat.R32G32B32A32_SFloat);
+			WaterDepthTex.Create();
+			waterDepthCam.targetTexture = WaterDepthTex;
 		}
 
 		if (waterSettings == null)
@@ -168,12 +174,7 @@ public class EffectManager : MonoBehaviour
 	void OnDestroy()
 	{
 		gaussianBlur.Release();
-		ComputeHelper.Release(waterDepthTex, blurredTexture);
+		ComputeHelper.Release(WaterDepthTex, blurredTexture);
 	}
 
-	public static Vector3 DirToSun {
-		get {
-			return -sunTransform.forward;
-		}
-	}
 }

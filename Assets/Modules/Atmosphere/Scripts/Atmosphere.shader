@@ -97,7 +97,7 @@ Shader "Hidden/Atmosphere"
 			sampler2D _MainTex;
 			sampler2D _BlueNoise;
 			sampler2D _BakedOpticalDepth;
-			sampler2D _LastCameraDepthTexture;
+			sampler2D _WaterDepthTexture;
 			sampler2D _CameraDepthTexture;
 
 			float4 params;
@@ -204,10 +204,10 @@ Shader "Hidden/Atmosphere"
 				
 				float sceneDepthNonLinear =  SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, i.screenPos);
 				float sceneDepth = LinearEyeDepth(sceneDepthNonLinear, _ZBufferParams) * length(i.viewVector);
-				//float waterDepthNonLinear = SAMPLE_DEPTH_TEXTURE_PROJ(_LastCameraDepthTexture, i.screenPos);
-				//float waterDepth = LinearEyeDepth(waterDepthNonLinear) * length(i.viewVector);
+				/*float waterDepthNonLinear = SAMPLE_DEPTH_TEXTURE_PROJ(_WaterDepthTexture, i.screenPos);
+				float waterDepth = LinearEyeDepth(waterDepthNonLinear, _ZBufferParams) * length(i.viewVector);
 				
-				//sceneDepth = min(waterDepth, sceneDepth);
+				sceneDepth = min(waterDepth, sceneDepth);*/
 					
 				float3 rayOrigin = _WorldSpaceCameraPos;
 				float3 rayDir = normalize(i.viewVector);

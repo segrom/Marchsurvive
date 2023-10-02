@@ -328,8 +328,25 @@ Varyings WaterLitPassVertex(Attributes input)
     UNITY_TRANSFER_INSTANCE_ID(input, output);
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
-    VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
+    
+    float vertexAnimWeight = length(output.positionWS - _WorldSpaceCameraPos);
+    vertexAnimWeight = saturate(pow(vertexAnimWeight / 10, 3));
 
+    // Vertex wave anim
+    float waveAnimDetail = 100;
+    float maxWaveAmplitude = 0.001 * vertexAnimWeight; // 0.001
+    float waveAnimSpeed = 1;
+
+    float3 worldNormal = normalize(mul(unity_ObjectToWorld, float4(input.normalOS, 0)).xyz);
+    float theta = acos(worldNormal.z);
+    float phi = atan2(input.positionOS.y, input.positionOS.x);
+    float waveA = sin(_Time.y * waveAnimSpeed + theta * waveAnimDetail);
+    float waveB = sin(_Time.y * waveAnimSpeed + phi * waveAnimDetail);
+    float waveVertexAmplitude = (waveA + waveB) * maxWaveAmplitude;
+    input.positionOS = input.positionOS + float4(worldNormal, 0) * waveVertexAmplitude;
+
+    VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
+    
     // normalWS and tangentWS already normalize.
     // this is required to avoid skewing the direction during interpolation
     // also required for per-vertex lighting and SH evaluation
@@ -381,7 +398,7 @@ Varyings WaterLitPassVertex(Attributes input)
 #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
     output.shadowCoord = GetShadowCoord(vertexInput);
 #endif
-
+    
     output.positionCS = vertexInput.positionCS;
 
     return output;

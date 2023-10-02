@@ -14,7 +14,7 @@ namespace Modules.Water.Scripts
             private AtmosphereSettings _settings;
             private Material _atmosphereMat;
             private RTHandle _cameraColorTargetHandle;
-            RenderTargetIdentifier colorBuffer, temporaryBuffer;
+            RenderTargetIdentifier colorBuffer;
             int temporaryBufferID = Shader.PropertyToID("_TemporaryBuffer");
 
             const string ProfilerTag = "Template Pass";
@@ -35,10 +35,6 @@ namespace Modules.Water.Scripts
         
                 // Grab the color buffer from the renderer camera color target.
                 colorBuffer = renderingData.cameraData.renderer.cameraColorTargetHandle;
-        
-                // Create a temporary render texture using the descriptor from above.
-                cmd.GetTemporaryRT(temporaryBufferID, descriptor, FilterMode.Bilinear);
-                temporaryBuffer = new RenderTargetIdentifier(temporaryBufferID);
             }
 
             public override void OnCameraCleanup(CommandBuffer cmd)
@@ -58,8 +54,7 @@ namespace Modules.Water.Scripts
                 using (new ProfilingScope(cmd, new ProfilingSampler(ProfilerTag)))
                 {
 
-                    cmd.Blit(colorBuffer, colorBuffer, _atmosphereMat); // shader pass 0
-                    //cmd.Blit(temporaryBuffer, colorBuffer); // shader pass 1
+                    cmd.Blit(colorBuffer, colorBuffer, _atmosphereMat);
                 }
 
                 context.ExecuteCommandBuffer(cmd);
