@@ -260,57 +260,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!1 &173080099
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 173080101}
-  - component: {fileID: 173080100}
-  m_Layer: 0
-  m_Name: FXAA
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &173080100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173080099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e559dafbeec89490bb3d095706d8a9ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  luminanceSource: 2
-  contrastThreshold: 0.0312
-  relativeThreshold: 0.063
-  subpixelBlending: 0.5
-  fxaaShader: {fileID: 4800000, guid: 935232f54c5894b57ad19147233be3ae, type: 3}
-  lowQuality: 0
-  gammaBlending: 0
---- !u!4 &173080101
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173080099}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1954793154}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!84 &365771955
 RenderTexture:
   m_ObjectHideFlags: 0
@@ -377,9 +326,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c97c9cb73740fe64d91491c03c60b152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numChunks: 10
+  numChunks: 20
   numPointsPerAxis: 35
-  boundsSize: 500
+  boundsSize: 1000
   isoLevel: 0
   useFlatShading: 0
   noiseScale: 0.75
@@ -670,7 +619,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 925745560}
   m_LocalRotation: {x: -0, y: -0.9481436, z: -0, w: 0.31784236}
-  m_LocalPosition: {x: 0.1060785, y: 250, z: 0.31644037}
+  m_LocalPosition: {x: 0.1060785, y: 475.7, z: 0.31644037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1548,7 +1497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0e1e5d8d2027242bb33bafb9e029f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 200
+  radius: 400
   resolution: 500
   edgeFade: 0.07
   shallowCol: {r: 0.13794939, g: 0.5224167, b: 0.8773585, a: 1}
@@ -1637,7 +1586,6 @@ Transform:
   m_Children:
   - {fileID: 1109409258}
   - {fileID: 1808249434}
-  - {fileID: 173080101}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

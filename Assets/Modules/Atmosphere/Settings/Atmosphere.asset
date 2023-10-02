@@ -18,16 +18,15 @@ MonoBehaviour:
   textureSize: 256
   inScatteringPoints: 10
   opticalDepthPoints: 10
-  densityFalloff: 0.94
+  densityFalloff: 4
   wavelengths: {x: 700, y: 530, z: 460}
   testParams: {x: 234.86, y: 0, z: 183.41, w: 3}
   scatteringStrength: 20
-  intensity: 4
-  planetRadius: 190
-  atmosphereRadius: 308.6
+  intensity: 2
+  planetRadius: 500
+  atmosphereRadius: 600
   ditherStrength: 1.5
   ditherScale: 4
   blueNoise: {fileID: 2800000, guid: 47576d1b6857b6a4aac8945ad11ebed9, type: 3}
-  originalColourStrength: 1100
+  originalColourStrength: 2000
   overlayStrength: 0.5
-  opticalDepthTexture: {fileID: 0}

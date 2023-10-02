@@ -198,7 +198,7 @@ Shader "Hidden/Atmosphere"
 
 			half4 frag (v2f i): SV_Target
 			{
-				i.viewVector = GetWorldSpaceNormalizeViewDir(i.positionWS);
+				//i.viewVector = GetWorldSpaceNormalizeViewDir(i.positionWS);
 				
 				float4 originalCol = tex2D(_MainTex, i.uv);
 				
@@ -226,10 +226,10 @@ Shader "Hidden/Atmosphere"
 					float3 sunTint = float3(255,234,166) / 255.0;
 					float3 light = calculateLight(pointInAtmosphere, rayDir, dstThroughAtmosphere - epsilon * 2, originalCol, i.uv, dstToSurface);
 					
-					if (dstToSurface > _ProjectionParams.z - _ProjectionParams.y)
+					/*if (dstToSurface > _ProjectionParams.z - _ProjectionParams.y)
 					{
 						light += pow(saturate(dot(rayDir, dirToSun)), sunPow) * sunTint;
-					}
+					}*/
 					return float4(light, 1);
 				}
 				return originalCol;

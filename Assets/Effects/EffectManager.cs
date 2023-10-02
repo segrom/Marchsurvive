@@ -33,7 +33,6 @@ public class EffectManager : MonoBehaviour
 	RenderTexture blurredTexture;
 	ComputeShaderUtility.GaussianBlur gaussianBlur;
 	CloudManager cloudManager;
-	FXAAEffect fxaa;
 	static Transform sunTransform;
 	
 	void Awake()
@@ -107,25 +106,12 @@ public class EffectManager : MonoBehaviour
 
 		// -------- Underwater --------
 		RenderTexture underwaterComposite = RenderTexture.GetTemporary(source.descriptor);
-		RenderUnderwater(cloudComposite, underwaterComposite);
-
-		// -------- Anti-Aliasing --------
-		RenderTexture antiAliasedResult = RenderTexture.GetTemporary(source.descriptor);
-		if (antiAliasingEnabled)
-		{
-			fxaa.Render(underwaterComposite, target);
-		}
-		else
-		{
-			Graphics.Blit(underwaterComposite, target);
-		}
+		RenderUnderwater(cloudComposite, target);
 
 		// -------- Release --------
 		RenderTexture.ReleaseTemporary(atmosphereComposite);
 		RenderTexture.ReleaseTemporary(cloudComposite);
 		RenderTexture.ReleaseTemporary(underwaterComposite);
-		RenderTexture.ReleaseTemporary(antiAliasedResult);
-
 	}
 
 	void Init()
@@ -154,11 +140,6 @@ public class EffectManager : MonoBehaviour
 		if (cloudManager == null)
 		{
 			cloudManager = FindObjectOfType<CloudManager>();
-		}
-
-		if (fxaa == null)
-		{
-			fxaa = FindObjectOfType<FXAAEffect>();
 		}
 	}
 
