@@ -2,42 +2,60 @@ Shader "Hidden/Atmosphere"
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
+		[MainTexture] _MainTex("Texture", 2D) = "white" {}
 	}
 	SubShader
 	{
+		
+		Tags
+        {
+            "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline"
+        }
+		HLSLINCLUDE
+		#include <HLSLSupport.cginc>
+		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+		ENDHLSL
 		// No culling or depth
 		Cull Off ZWrite Off ZTest Always
 
 		Pass
 		{
-			CGPROGRAM
+			HLSLPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
+			
 
-			#include "UnityCG.cginc"
-			//
-
-			struct appdata {
-					float4 vertex : POSITION;
-					float4 uv : TEXCOORD0;
+			struct appdata
+			{
+				float4 positionOS : POSITION;
+				float4 texcoord : TEXCOORD0;
 			};
 
-			struct v2f {
-					float4 pos : SV_POSITION;
-					float2 uv : TEXCOORD0;
-					float3 viewVector : TEXCOORD1;
+			struct v2f
+			{
+				float3 positionWS : TEXCOORD0;
+				float4 positionCS : SV_POSITION;
+				float2 uv : TEXCOORD1;
+				float4 screenPos : TEXCOORD2;
+				float3 viewVector : TEXCOORD3;
 			};
 
-			v2f vert (appdata v) {
-					v2f output;
-					output.pos = UnityObjectToClipPos(v.vertex);
-					output.uv = v.uv;
-					// Camera space matches OpenGL convention where cam forward is -z. In unity forward is positive z.
-					// (https://docs.unity3d.com/ScriptReference/Camera-cameraToWorldMatrix.html)
-					float3 viewVector = mul(unity_CameraInvProjection, float4(v.uv.xy * 2 - 1, 0, -1));
-					output.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
-					return output;
+			v2f vert(appdata v)
+			{
+				v2f output;
+
+				VertexPositionInputs vertexInput = GetVertexPositionInputs(v.positionOS);
+				output.positionCS = vertexInput.positionCS;
+				output.positionWS =  vertexInput.positionWS;
+				output.uv = v.texcoord;
+				
+				output.screenPos = vertexInput.positionNDC;
+
+				float3 viewVector = mul(unity_CameraInvProjection, float4((output.screenPos.xy/output.screenPos.w) * 2 - 1, 0, -1));
+				output.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
+				
+				return output;
 			}
 
 			float2 squareUV(float2 uv) {
@@ -76,10 +94,8 @@ Shader "Hidden/Atmosphere"
 				return float2(maxFloat, 0);
 			}
 
-
-
-			sampler2D _BlueNoise;
 			sampler2D _MainTex;
+			sampler2D _BlueNoise;
 			sampler2D _BakedOpticalDepth;
 			sampler2D _LastCameraDepthTexture;
 			sampler2D _CameraDepthTexture;
@@ -180,17 +196,18 @@ Shader "Hidden/Atmosphere"
 			}
 
 
-			float4 frag (v2f i) : SV_Target
+			half4 frag (v2f i): SV_Target
 			{
+				i.viewVector = GetWorldSpaceNormalizeViewDir(i.positionWS);
+				
 				float4 originalCol = tex2D(_MainTex, i.uv);
 				
-
-				float sceneDepthNonLinear = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
-				float sceneDepth = LinearEyeDepth(sceneDepthNonLinear) * length(i.viewVector);
-				float waterDepthNonLinear = SAMPLE_DEPTH_TEXTURE(_LastCameraDepthTexture, i.uv);
-				float waterDepth = LinearEyeDepth(waterDepthNonLinear) * length(i.viewVector);
+				float sceneDepthNonLinear =  SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, i.screenPos);
+				float sceneDepth = LinearEyeDepth(sceneDepthNonLinear, _ZBufferParams) * length(i.viewVector);
+				//float waterDepthNonLinear = SAMPLE_DEPTH_TEXTURE_PROJ(_LastCameraDepthTexture, i.screenPos);
+				//float waterDepth = LinearEyeDepth(waterDepthNonLinear) * length(i.viewVector);
 				
-				sceneDepth = min(waterDepth, sceneDepth);
+				//sceneDepth = min(waterDepth, sceneDepth);
 					
 				float3 rayOrigin = _WorldSpaceCameraPos;
 				float3 rayDir = normalize(i.viewVector);
@@ -217,9 +234,8 @@ Shader "Hidden/Atmosphere"
 				}
 				return originalCol;
 			}
-
-
-			ENDCG
+			
+			ENDHLSL
 		}
 	}
 }

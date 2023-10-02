@@ -37,7 +37,7 @@ public class AtmosphereSettings : ScriptableObject
 	//public float atmosphereScale = 0.5f;
 	//public float bodyRadius = 100;
 
-	RenderTexture opticalDepthTexture;
+	[SerializeField]RenderTexture opticalDepthTexture;
 	bool settingsUpToDate;
 
 	public void FlagForUpdate()

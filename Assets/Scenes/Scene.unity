@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 115234639}
   m_Layer: 0
   m_Name: Water Depth Camera
-  m_TagString: Untagged
+  m_TagString: WaterDepthCam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,7 +206,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 16
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 986e8749033d359488e3ab968731b388, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -229,8 +229,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
+  m_RequiresDepthTextureOption: 1
+  m_RequiresOpaqueTextureOption: 0
   m_CameraType: 0
   m_Cameras: []
   m_RendererIndex: -1
@@ -238,7 +238,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
+  m_VolumeFrameworkUpdateModeOption: 1
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -741,6 +741,7 @@ GameObject:
   - component: {fileID: 1102578951}
   - component: {fileID: 1102578950}
   - component: {fileID: 1102578954}
+  - component: {fileID: 1102578955}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -868,6 +869,20 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &1102578955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102578948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff53b7386dec14c408c86267b061ea9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _waterDepthCamera: {fileID: 115234638}
+  _depthShader: {fileID: 4800000, guid: 4cf13758782c8b14f886c593390d8807, type: 3}
 --- !u!1 &1109409256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,7 +1165,7 @@ GameObject:
   - component: {fileID: 1437843345}
   - component: {fileID: 1437843347}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Sun
   m_TagString: Sun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1177,7 +1192,7 @@ Light:
     m_Type: 2
     m_Resolution: 3
     m_CustomResolution: -1
-    m_Strength: 0.9
+    m_Strength: 0.6
     m_Bias: 0.1
     m_NormalBias: 0.25
     m_NearPlane: 0.2
@@ -1229,7 +1244,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1598990200}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
@@ -1256,6 +1272,89 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1598990199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1598990200}
+  - component: {fileID: 1598990203}
+  - component: {fileID: 1598990202}
+  m_Layer: 0
+  m_Name: SunObject
+  m_TagString: Sun
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1598990200
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598990199}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1000}
+  m_LocalScale: {x: 150, y: 150, z: 150}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1437843346}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1598990202
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598990199}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 0
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 61d4db2a49569104aba619be7101ec6b, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1598990203
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598990199}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1610403124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,7 +1550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 200
   resolution: 500
-  edgeFade: 0.13
+  edgeFade: 0.07
   shallowCol: {r: 0.13794939, g: 0.5224167, b: 0.8773585, a: 1}
   deepCol: {r: 0.049246386, g: 0.24117242, b: 0.7830189, a: 1}
   colDepthFactor: 0.07
@@ -1516,7 +1615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6592095c53b74e44390e1be635a58265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atmosphereEnabled: 0
+  atmosphereEnabled: 1
   cloudsEnabled: 0
   underwaterEnabled: 1
   antiAliasingEnabled: 0
